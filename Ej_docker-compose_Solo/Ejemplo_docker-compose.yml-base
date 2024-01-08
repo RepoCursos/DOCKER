@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  mariadb: # no modificar
+    image: docker.io/bitnami/mysql:8.0 # mantener extructura se puede modificar "la base datos "
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes  # no modificar
+      - MYSQL_USER=bn_myapp
+      - MYSQL_DATABASE=bitnami_myapp
+    ports:
+      - '3306:3306'
+
+  # Imagen para usar y descargar laravel
+  myapp:
+    image: docker.io/bitnami/laravel:10  # no modificar solo puedo modificar la version "10"
+    ports:
+      - '8000:8000'
+    environment:
+      - DB_HOST=mariadb # no modificar
+      - DB_PORT=3306
+      - DB_USERNAME=bn_myapp
+      - DB_DATABASE=bitnami_myapp
+    volumes:
+      - './my-project:/app' # mantener extructura se puede modificar "my-project"
+    depends_on:
+      - mariadb # no modificar

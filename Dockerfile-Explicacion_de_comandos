@@ -1,0 +1,47 @@
+#FROM se utiliza para indicar la imagen base a usar Ej:CentOS 7
+FROM centos:7
+
+#WORKDIR Crea el diretorio de trabajo en el cual estaremos trabajando en el contenedor en este caso sera /html
+WORKDIR /var/www/html
+
+#COPY es para copiar contenido "archivos", en este caso copia desde el directorio en donde me encuentro 
+#trabajando mi maquina al directorio indicado del contenedor. Ej: desde qui (Maquina) a /var/www/html 
+COPY . /var/www/html
+
+#EXOPSE es para exopner el puerto del contenedor
+EXOPSE 80
+
+#RUN sirve para ejecutar comandos de linux cuando se esta compilando la imagen, tenemos que tener cuidado 
+#de la posicion que mandamos a ejecutar este comando ya que desde su posicion afecta a todas las instrucciones 
+#que esten por debajo cuando hacemos una midificacion en la instruccion
+#EJ: Actualiza el sistema y instala las dependencias necesarias 
+RUN yum -y update && \
+    yum -y install epel-release && \
+    yum -y install httpd git unzip wget
+
+#Ejemplo de modificacion del Run de arriba, si elimino la instruccion (yum -y install epel-release) todo lo que este 
+#por debajo se vera afectado como por ejemplo todo programa que necesite del epel-release
+RUN yum -y update && \
+    #yum -y install epel-release && \ ELIMINADO
+    yum -y install httpd git unzip wget
+
+
+#CMD es un comando que le indica a Docker que comando tiene que ejecutar cuando se este iniciando
+#Pero no tenemos que pasarle parametros, cuando ejecutamos el docker run le pasamos parametros como "/bash" o "-it" etc.
+#Ej: docker run "imagen" /bash o docker run -it "imagen" 
+#RECOMENDACION: el CMD usarlo para lanzar servicios
+CMD ["node", "server.js"] #Porque si le pasamos parametros el CMD no va a funcionar
+#Como usar CMD ["ejecutable", "parametros"] 
+
+
+#ENTRYPOINT es muy parecido al CMD lo unico que no se sobrescrive, es decir que si le pasamos parametros como en 
+#la explicacion del CMD, se ejecuta igual y tambien ejecuta el parametro que le indiquemos en el docker run ....
+#RECOMENDACION: el ENTRYPOINT usarlo como una especie de aplicacion
+ENTRYPOINT ["node", "server.js"]
+#Como usar ENTRYPOINT ["ejecutable", "parametros"] 
+
+#Tambien se pueden conbinar por ejemplo
+ENTRYPOINT ["node"]
+CMD ["server.js"]
+
+    

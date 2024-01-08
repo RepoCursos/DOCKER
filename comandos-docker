@@ -1,0 +1,16 @@
+COMANDOS 
+
+Para eliminar muchos contenedores
+$ docker rm -fv $(docker ps -aq)
+
+Para eliminar muchas imagenes
+$ docker rmi $(docker images -q)
+
+Para correr la imagen por primera vez usamos el comando:
+$ docker run -it "imagen" /bin/bash
+
+si el contenedor ya existe usamos el siguiente comando
+$ docker start "ID del contenedor"
+
+y para ingresar usamos el comando 
+$ docker exec -it "ID del contenedor" /bin/bash
