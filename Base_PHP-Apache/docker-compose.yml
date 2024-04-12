@@ -1,5 +1,5 @@
 services:
-  laravel:
+  nombre_app:
     container_name: nombre_app
     build: .
     volumes:
@@ -9,14 +9,13 @@ services:
     depends_on:
       - mysql
 
-  mysql:
-    container_name: mysql
+  mysql_db:
     image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nombre_base_datos
     ports:
       - '3306:3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: nombre_base_datos
 
   phpmyadmin:
     image: phpmyadmin:latest
