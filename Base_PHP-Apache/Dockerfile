@@ -37,3 +37,7 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
 # RewriteEngine On
 # RewriteCond %{REQUEST_URI} !^/public/
 # RewriteRule ^(.*)$ /public/$1 [L,QSA]
+
+#Luego de hacer estos pasos recordemos que en el archivo .env, el la configuracion de la conexion a la BD
+#Tenemos que poner en la linea del HOST 
+#DB_HOST=mysql_db "el nombre del contenedor de la BD"
